@@ -3,6 +3,7 @@ package com.example.cc451_pcl02_proy.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavType
@@ -19,12 +20,16 @@ import com.example.cc451_pcl02_proy.ui.operario.ProfileScreen
 import com.example.cc451_pcl02_proy.ui.operario.QuickPhrasesScreen
 import com.example.cc451_pcl02_proy.ui.operario.SosScreen
 import com.example.cc451_pcl02_proy.ui.operario.StartShiftScreen
+import com.example.cc451_pcl02_proy.ui.supervisor.AlertDetailScreen
+import com.example.cc451_pcl02_proy.ui.supervisor.DashboardScreen
 import com.example.cc451_pcl02_proy.ui.operario.TrafficLightScreen
 
 @Composable
 fun SafeMineNavHost() {
     val nav = rememberNavController()
     // La demo cicla por los tres reportes simulados: precaución, OK y peligro.
+    // Estado compartido del supervisor: confirmar o cerrar actualiza dashboard y detalle.
+    val reports = remember { mutableStateListOf(*MockData.supervisorReports.toTypedArray()) }
     var nextDemo by remember { mutableIntStateOf(0) }
 
     NavHost(nav, startDestination = Routes.START) {
@@ -33,7 +38,7 @@ fun SafeMineNavHost() {
                 onScanOk = {
                     nav.navigate(Routes.LISTENING) { popUpTo(Routes.START) { inclusive = true } }
                 },
-                onSupervisor = {},
+                onSupervisor = { nav.navigate(Routes.DASHBOARD) },
             )
         }
         composable(Routes.LISTENING) {
@@ -55,6 +60,24 @@ fun SafeMineNavHost() {
                 onConfirm = { nav.navigate(Routes.traffic(entry.arguments?.getInt("demo") ?: 0)) },
                 onCorrect = { nav.popBackStack() },
             )
+        }
+        composable(Routes.DASHBOARD) {
+            DashboardScreen(
+                reports = reports,
+                onOpen = { nav.navigate(Routes.alert(it)) },
+                onExit = { nav.popBackStack() },
+            )
+        }
+        composable(Routes.ALERT, arguments = listOf(navArgument("id") { type = NavType.IntType })) { entry ->
+            val id = entry.arguments?.getInt("id")
+            val index = reports.indexOfFirst { it.id == id }
+            if (index >= 0) {
+                AlertDetailScreen(
+                    report = reports[index],
+                    onChange = { reports[index] = it },
+                    onBack = { nav.popBackStack() },
+                )
+            }
         }
         composable(Routes.PROFILE) {
             ProfileScreen(onCrew = { nav.navigate(Routes.CREW) }, onBack = { nav.popBackStack() })

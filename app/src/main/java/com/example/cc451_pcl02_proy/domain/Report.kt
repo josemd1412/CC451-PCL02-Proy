@@ -11,6 +11,8 @@ data class Report(
     val time: String,
     val status: ReportStatus = ReportStatus.NEW,
     val protocol: List<String> = emptyList(),
+    /** Acción correctiva asignada por el supervisor (RF-09). */
+    val action: String? = null,
 ) {
     /** Resumen que la app lee y muestra antes de enviar (RF-06). */
     val summary: String get() = "$type, zona $zone, ${severity.word.lowercase()}"

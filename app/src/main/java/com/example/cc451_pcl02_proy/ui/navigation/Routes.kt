@@ -2,6 +2,9 @@ package com.example.cc451_pcl02_proy.ui.navigation
 
 /** Rutas de la app. Los argumentos se pasan en la ruta, ej. `confirm/0`. */
 object Routes {
+    const val DASHBOARD = "dashboard"
+    const val ALERT = "alert/{id}"
+    fun alert(id: Int) = "alert/$id"
     const val START = "start"
     const val LISTENING = "listening"
     const val CONFIRM = "confirm/{demo}"
