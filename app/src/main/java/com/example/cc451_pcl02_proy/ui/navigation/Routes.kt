@@ -4,6 +4,8 @@ package com.example.cc451_pcl02_proy.ui.navigation
 object Routes {
     const val LISTENING = "listening"
     const val CONFIRM = "confirm/{demo}"
+    const val PROFILE = "profile"
+    const val CREW = "crew"
     const val HELP = "help"
     const val PHRASES = "phrases"
     const val SOS = "sos"

@@ -12,8 +12,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.cc451_pcl02_proy.data.MockData
 import com.example.cc451_pcl02_proy.ui.operario.ConfirmScreen
+import com.example.cc451_pcl02_proy.ui.operario.CrewScreen
 import com.example.cc451_pcl02_proy.ui.operario.HelpScreen
 import com.example.cc451_pcl02_proy.ui.operario.ListeningScreen
+import com.example.cc451_pcl02_proy.ui.operario.ProfileScreen
 import com.example.cc451_pcl02_proy.ui.operario.QuickPhrasesScreen
 import com.example.cc451_pcl02_proy.ui.operario.SosScreen
 import com.example.cc451_pcl02_proy.ui.operario.TrafficLightScreen
@@ -34,6 +36,7 @@ fun SafeMineNavHost() {
                 onSos = { nav.navigate(Routes.SOS) },
                 onPhrases = { nav.navigate(Routes.PHRASES) },
                 onHelp = { nav.navigate(Routes.HELP) },
+                onProfile = { nav.navigate(Routes.PROFILE) },
             )
         }
         composable(Routes.CONFIRM, arguments = listOf(navArgument("demo") { type = NavType.IntType })) { entry ->
@@ -43,6 +46,12 @@ fun SafeMineNavHost() {
                 onConfirm = { nav.navigate(Routes.traffic(entry.arguments?.getInt("demo") ?: 0)) },
                 onCorrect = { nav.popBackStack() },
             )
+        }
+        composable(Routes.PROFILE) {
+            ProfileScreen(onCrew = { nav.navigate(Routes.CREW) }, onBack = { nav.popBackStack() })
+        }
+        composable(Routes.CREW) {
+            CrewScreen(onBack = { nav.popBackStack() })
         }
         composable(Routes.HELP) {
             HelpScreen(onBack = { nav.popBackStack() })
