@@ -16,6 +16,7 @@ import com.example.cc451_pcl02_proy.ui.operario.ConfirmScreen
 import com.example.cc451_pcl02_proy.ui.operario.CrewScreen
 import com.example.cc451_pcl02_proy.ui.operario.HelpScreen
 import com.example.cc451_pcl02_proy.ui.operario.ListeningScreen
+import com.example.cc451_pcl02_proy.ui.operario.ManualSignalScreen
 import com.example.cc451_pcl02_proy.ui.operario.ProfileScreen
 import com.example.cc451_pcl02_proy.ui.operario.QuickPhrasesScreen
 import com.example.cc451_pcl02_proy.ui.operario.SosScreen
@@ -48,6 +49,7 @@ fun SafeMineNavHost() {
                     nextDemo = (nextDemo + 1) % MockData.voiceDemos.size
                 },
                 onSos = { nav.navigate(Routes.SOS) },
+                onManual = { nav.navigate(Routes.MANUAL) },
                 onPhrases = { nav.navigate(Routes.PHRASES) },
                 onHelp = { nav.navigate(Routes.HELP) },
                 onProfile = { nav.navigate(Routes.PROFILE) },
@@ -87,6 +89,13 @@ fun SafeMineNavHost() {
         }
         composable(Routes.HELP) {
             HelpScreen(onBack = { nav.popBackStack() })
+        }
+        composable(Routes.MANUAL) {
+            ManualSignalScreen(
+                // Las señales manuales van al final de MockData.allDemos, en el orden de Severity.
+                onPick = { nav.navigate(Routes.confirm(MockData.voiceDemos.size + MockData.quickPhrases.size + it.ordinal)) },
+                onBack = { nav.popBackStack() },
+            )
         }
         composable(Routes.PHRASES) {
             QuickPhrasesScreen(

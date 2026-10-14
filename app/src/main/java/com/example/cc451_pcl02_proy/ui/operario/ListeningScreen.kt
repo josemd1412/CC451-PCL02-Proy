@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.TextAutoSize
@@ -52,6 +54,7 @@ import com.example.cc451_pcl02_proy.ui.theme.TextSecondary
 fun ListeningScreen(
     onSimulateVoice: () -> Unit,
     onSos: () -> Unit,
+    onManual: () -> Unit = {},
     onPhrases: () -> Unit = {},
     onHelp: () -> Unit = {},
     onProfile: () -> Unit = {},
@@ -68,7 +71,7 @@ fun ListeningScreen(
         ZoneHeader(Modifier.fillMaxWidth())
 
         Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-            PulseRings(Modifier.size(280.dp))
+            PulseRings(Modifier.heightIn(max = 280.dp).fillMaxHeight().aspectRatio(1f))
         }
 
         BasicText(
@@ -91,6 +94,7 @@ fun ListeningScreen(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 24.dp, bottom = 16.dp),
         )
+        BigButton("SEMÁFORO (SIN HABLAR)", onManual, Modifier.fillMaxWidth().padding(bottom = 8.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             BigButton("FRASES", onPhrases, Modifier.weight(1f))
             BigButton("AYUDA", onHelp, Modifier.weight(1f))

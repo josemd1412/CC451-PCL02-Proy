@@ -38,12 +38,12 @@ fun ConfirmScreen(report: Report, onConfirm: () -> Unit, onCorrect: () -> Unit) 
     ) {
         ZoneHeader(Modifier.fillMaxWidth())
 
-        Text("Te escuché:", style = MaterialTheme.typography.bodyLarge, color = TextSecondary)
-        Text(
-            "“${report.transcript}”",
-            style = MaterialTheme.typography.bodyLarge,
-            color = TextSecondary,
-        )
+        if (report.byVoice) {
+            Text("Te escuché:", style = MaterialTheme.typography.bodyLarge, color = TextSecondary)
+            Text("“${report.transcript}”", style = MaterialTheme.typography.bodyLarge, color = TextSecondary)
+        } else {
+            Text("Elegiste:", style = MaterialTheme.typography.bodyLarge, color = TextSecondary)
+        }
 
         Column(
             Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(Surface1).padding(24.dp),
@@ -60,7 +60,7 @@ fun ConfirmScreen(report: Report, onConfirm: () -> Unit, onCorrect: () -> Unit) 
             BigButton("SÍ, ENVIAR", onConfirm, Modifier.weight(1.4f).height(120.dp), container = SignalGreen, content = MatteBlack)
         }
         Text(
-            "Di “sí” para enviar, o “corrige” seguido del dato",
+            "Di “sí” para enviar, o toca el botón",
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary,
         )

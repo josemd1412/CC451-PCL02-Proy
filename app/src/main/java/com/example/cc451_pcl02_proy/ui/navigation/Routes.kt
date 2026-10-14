@@ -11,6 +11,7 @@ object Routes {
     const val PROFILE = "profile"
     const val CREW = "crew"
     const val HELP = "help"
+    const val MANUAL = "manual"
     const val PHRASES = "phrases"
     const val SOS = "sos"
     const val TRAFFIC = "traffic/{demo}"
