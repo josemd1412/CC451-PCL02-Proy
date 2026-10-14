@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +31,8 @@ import com.example.cc451_pcl02_proy.data.MockData
 import com.example.cc451_pcl02_proy.domain.Report
 import com.example.cc451_pcl02_proy.domain.Severity
 import com.example.cc451_pcl02_proy.ui.components.SeverityShape
+import com.example.cc451_pcl02_proy.ui.components.SeverityVibration
+import com.example.cc451_pcl02_proy.ui.components.rememberSeverityFlash
 import com.example.cc451_pcl02_proy.ui.components.ZoneHeader
 import com.example.cc451_pcl02_proy.ui.components.background
 import com.example.cc451_pcl02_proy.ui.components.content
@@ -47,16 +50,17 @@ fun TrafficLightScreen(report: Report, onDismiss: () -> Unit) {
     // En PELIGRO la forma es blanca y el símbolo rojo; en los otros, forma negra y símbolo del color de fondo.
     val glyph = severity.background
 
+    SeverityVibration(severity)
+    val flash = rememberSeverityFlash(severity)
+
     Box(
         Modifier
             .fillMaxSize()
             .background(severity.background)
-            .clickable(role = Role.Button, onClickLabel = "Volver a escuchar", onClick = onDismiss)
-            .systemBarsPadding()
-            .padding(24.dp),
+            .clickable(role = Role.Button, onClickLabel = "Volver a escuchar", onClick = onDismiss),
     ) {
         Column(
-            Modifier.fillMaxSize(),
+            Modifier.fillMaxSize().systemBarsPadding().padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
@@ -77,6 +81,8 @@ fun TrafficLightScreen(report: Report, onDismiss: () -> Unit) {
 
             if (report.protocol.isNotEmpty()) ProtocolCard(report.protocol, fg)
         }
+        // Destello sobre todo el contenido; no consume toques.
+        Box(Modifier.fillMaxSize().graphicsLayer { alpha = flash.value }.background(Color.White))
     }
 }
 
