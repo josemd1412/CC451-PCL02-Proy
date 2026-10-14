@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -48,7 +49,13 @@ import com.example.cc451_pcl02_proy.ui.theme.TextSecondary
  * táctil. En la app real la voz dispara el flujo; aquí un toque lo simula.
  */
 @Composable
-fun ListeningScreen(onSimulateVoice: () -> Unit, onSos: () -> Unit) {
+fun ListeningScreen(
+    onSimulateVoice: () -> Unit,
+    onSos: () -> Unit,
+    onPhrases: () -> Unit = {},
+    onHelp: () -> Unit = {},
+    onProfile: () -> Unit = {},
+) {
     Column(
         Modifier
             .fillMaxSize()
@@ -84,7 +91,12 @@ fun ListeningScreen(onSimulateVoice: () -> Unit, onSos: () -> Unit) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 24.dp, bottom = 16.dp),
         )
-        BigButton("SOS", onSos, Modifier.fillMaxWidth(), container = SignalRed, content = TextPrimary)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            BigButton("FRASES", onPhrases, Modifier.weight(1f))
+            BigButton("AYUDA", onHelp, Modifier.weight(1f))
+            BigButton("PERFIL", onProfile, Modifier.weight(1f))
+        }
+        BigButton("SOS", onSos, Modifier.fillMaxWidth().padding(top = 8.dp), container = SignalRed, content = TextPrimary)
     }
 }
 
