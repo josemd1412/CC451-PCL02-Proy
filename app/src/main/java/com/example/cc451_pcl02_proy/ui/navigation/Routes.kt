@@ -4,5 +4,7 @@ package com.example.cc451_pcl02_proy.ui.navigation
 object Routes {
     const val LISTENING = "listening"
     const val CONFIRM = "confirm/{demo}"
+    const val TRAFFIC = "traffic/{demo}"
+    fun traffic(demo: Int) = "traffic/$demo"
     fun confirm(demo: Int) = "confirm/$demo"
 }

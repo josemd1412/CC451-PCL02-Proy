@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.example.cc451_pcl02_proy.data.MockData
 import com.example.cc451_pcl02_proy.ui.operario.ConfirmScreen
 import com.example.cc451_pcl02_proy.ui.operario.ListeningScreen
+import com.example.cc451_pcl02_proy.ui.operario.TrafficLightScreen
 
 @Composable
 fun SafeMineNavHost() {
@@ -31,8 +32,15 @@ fun SafeMineNavHost() {
             val report = MockData.voiceDemos[entry.arguments?.getInt("demo") ?: 0]
             ConfirmScreen(
                 report = report,
-                onConfirm = {},
+                onConfirm = { nav.navigate(Routes.traffic(entry.arguments?.getInt("demo") ?: 0)) },
                 onCorrect = { nav.popBackStack() },
+            )
+        }
+        composable(Routes.TRAFFIC, arguments = listOf(navArgument("demo") { type = NavType.IntType })) { entry ->
+            val report = MockData.voiceDemos[entry.arguments?.getInt("demo") ?: 0]
+            TrafficLightScreen(
+                report = report,
+                onDismiss = { nav.popBackStack(Routes.LISTENING, inclusive = false) },
             )
         }
     }
