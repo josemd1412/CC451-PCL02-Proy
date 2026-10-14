@@ -6,9 +6,7 @@ plugins {
 android {
     namespace = "com.example.cc451_pcl02_proy"
     compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
+        version = release(37)
     }
 
     defaultConfig {
