@@ -18,6 +18,7 @@ import com.example.cc451_pcl02_proy.ui.operario.ListeningScreen
 import com.example.cc451_pcl02_proy.ui.operario.ProfileScreen
 import com.example.cc451_pcl02_proy.ui.operario.QuickPhrasesScreen
 import com.example.cc451_pcl02_proy.ui.operario.SosScreen
+import com.example.cc451_pcl02_proy.ui.operario.StartShiftScreen
 import com.example.cc451_pcl02_proy.ui.operario.TrafficLightScreen
 
 @Composable
@@ -26,7 +27,15 @@ fun SafeMineNavHost() {
     // La demo cicla por los tres reportes simulados: precaución, OK y peligro.
     var nextDemo by remember { mutableIntStateOf(0) }
 
-    NavHost(nav, startDestination = Routes.LISTENING) {
+    NavHost(nav, startDestination = Routes.START) {
+        composable(Routes.START) {
+            StartShiftScreen(
+                onScanOk = {
+                    nav.navigate(Routes.LISTENING) { popUpTo(Routes.START) { inclusive = true } }
+                },
+                onSupervisor = {},
+            )
+        }
         composable(Routes.LISTENING) {
             ListeningScreen(
                 onSimulateVoice = {
