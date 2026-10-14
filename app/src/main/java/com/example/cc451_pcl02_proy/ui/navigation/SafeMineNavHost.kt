@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.example.cc451_pcl02_proy.data.MockData
 import com.example.cc451_pcl02_proy.ui.operario.ConfirmScreen
 import com.example.cc451_pcl02_proy.ui.operario.ListeningScreen
+import com.example.cc451_pcl02_proy.ui.operario.SosScreen
 import com.example.cc451_pcl02_proy.ui.operario.TrafficLightScreen
 
 @Composable
@@ -23,10 +24,13 @@ fun SafeMineNavHost() {
 
     NavHost(nav, startDestination = Routes.LISTENING) {
         composable(Routes.LISTENING) {
-            ListeningScreen(onSimulateVoice = {
-                nav.navigate(Routes.confirm(nextDemo))
-                nextDemo = (nextDemo + 1) % MockData.voiceDemos.size
-            })
+            ListeningScreen(
+                onSimulateVoice = {
+                    nav.navigate(Routes.confirm(nextDemo))
+                    nextDemo = (nextDemo + 1) % MockData.voiceDemos.size
+                },
+                onSos = { nav.navigate(Routes.SOS) },
+            )
         }
         composable(Routes.CONFIRM, arguments = listOf(navArgument("demo") { type = NavType.IntType })) { entry ->
             val report = MockData.voiceDemos[entry.arguments?.getInt("demo") ?: 0]
@@ -35,6 +39,9 @@ fun SafeMineNavHost() {
                 onConfirm = { nav.navigate(Routes.traffic(entry.arguments?.getInt("demo") ?: 0)) },
                 onCorrect = { nav.popBackStack() },
             )
+        }
+        composable(Routes.SOS) {
+            SosScreen(onBack = { nav.popBackStack() })
         }
         composable(Routes.TRAFFIC, arguments = listOf(navArgument("demo") { type = NavType.IntType })) { entry ->
             val report = MockData.voiceDemos[entry.arguments?.getInt("demo") ?: 0]

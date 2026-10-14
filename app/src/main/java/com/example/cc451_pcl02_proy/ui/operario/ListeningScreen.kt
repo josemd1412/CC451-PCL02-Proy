@@ -33,11 +33,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cc451_pcl02_proy.ui.components.BigButton
 import com.example.cc451_pcl02_proy.ui.components.ZoneHeader
 import com.example.cc451_pcl02_proy.ui.theme.CC451PCL02ProyTheme
 import com.example.cc451_pcl02_proy.ui.theme.Condensed
 import com.example.cc451_pcl02_proy.ui.theme.ListeningBlue
 import com.example.cc451_pcl02_proy.ui.theme.MatteBlack
+import com.example.cc451_pcl02_proy.ui.theme.SignalRed
 import com.example.cc451_pcl02_proy.ui.theme.TextPrimary
 import com.example.cc451_pcl02_proy.ui.theme.TextSecondary
 
@@ -46,7 +48,7 @@ import com.example.cc451_pcl02_proy.ui.theme.TextSecondary
  * táctil. En la app real la voz dispara el flujo; aquí un toque lo simula.
  */
 @Composable
-fun ListeningScreen(onSimulateVoice: () -> Unit) {
+fun ListeningScreen(onSimulateVoice: () -> Unit, onSos: () -> Unit) {
     Column(
         Modifier
             .fillMaxSize()
@@ -80,8 +82,9 @@ fun ListeningScreen(onSimulateVoice: () -> Unit) {
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
+            modifier = Modifier.padding(top = 24.dp, bottom = 16.dp),
         )
+        BigButton("SOS", onSos, Modifier.fillMaxWidth(), container = SignalRed, content = TextPrimary)
     }
 }
 
@@ -118,5 +121,5 @@ private fun PulseRings(modifier: Modifier = Modifier, color: Color = ListeningBl
 @Preview(widthDp = 360, heightDp = 740)
 @Composable
 private fun ListeningPreview() {
-    CC451PCL02ProyTheme { ListeningScreen(onSimulateVoice = {}) }
+    CC451PCL02ProyTheme { ListeningScreen(onSimulateVoice = {}, onSos = {}) }
 }
